@@ -202,7 +202,7 @@ body.menu-open .burger span:nth-child(3){top:18px;transform:rotate(-45deg)}
 .shot .live{position:absolute;bottom:12px;right:12px;z-index:2;background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 13px;border-radius:99px;display:inline-flex;align-items:center;gap:7px;box-shadow:0 6px 18px rgba(37,99,235,.4)}
 .shot .live b{width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1.6s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
-.proj-info{padding:24px 24px 22px;display:flex;flex-direction:column;gap:9px;flex:1}
+.proj-info{padding:24px 24px 22px;display:flex;flex-direction:column;gap:99px;flex:1}
 .proj-info .p-tag{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
 .proj-info h3{font-family:var(--font-display);font-size:1.18rem;font-weight:700;line-height:1.25}
 .proj-info p{font-size:.88rem;color:var(--muted);flex:1}
@@ -305,7 +305,7 @@ footer{background:var(--dark);color:rgba(248,250,252,.55);padding:34px 0;border-
       <div class="stat"><div class="num"><span class="count" data-to="5">0</span><i>+</i></div><div class="lbl">Live Websites</div></div>
       <div class="stat"><div class="num"><span class="count" data-to="5">0</span><i>+</i></div><div class="lbl">Growth Reports</div></div>
       <div class="stat"><div class="num"><span class="count" data-to="6">0</span><i>mo</i></div><div class="lbl">Dev Internship</div></div>
-      <div class="stat"><div class="num">B.<span class="count" data-to="2027">2027</span></div><div class="lbl">B.Tech CSE · AI & ML</div></div>
+      <div class="stat"><div class="num">B.<span class="count" data-to="2027">0</span></div><div class="lbl">B.Tech CSE · AI & ML</div></div>
     </div>
   </div>
 
@@ -560,6 +560,44 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 reveals.forEach(el => observer.observe(el));
+
+// Number Counter Animation for Real Stats
+const counters = document.querySelectorAll('.count');
+let animated = false;
+
+const startCounters = () => {
+  counters.forEach(counter => {
+    const target = +counter.getAttribute('data-to');
+    const duration = 1500; // Animation duration in ms
+    const stepTime = 20;
+    const steps = duration / stepTime;
+    const increment = target / steps;
+    let current = 0;
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        counter.textContent = target;
+        clearInterval(timer);
+      } else {
+        counter.textContent = Math.ceil(current);
+      }
+    }, stepTime);
+  });
+};
+
+const statsSection = document.querySelector('.hero-stats');
+if (statsSection) {
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !animated) {
+        animated = true;
+        startCounters();
+      }
+    });
+  }, { threshold: 0.5 });
+  statsObserver.observe(statsSection);
+}
 
 // Custom Cursor
 const cursorDot = document.querySelector('.cursor-dot');
