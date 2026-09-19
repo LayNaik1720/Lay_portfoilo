@@ -1,0 +1,16 @@
+{
+  "name": "devdb",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Embedded MongoDB-compatible server used for local development previews when a real mongod is unavailable.",
+  "bin": {
+    "devdb": "./bin/devdb.js"
+  },
+  "scripts": {
+    "start": "node bin/devdb.js"
+  },
+  "dependencies": {
+    "bson": "^6.8.0"
+  }
+}
