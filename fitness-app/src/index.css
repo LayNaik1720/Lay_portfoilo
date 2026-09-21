@@ -1,0 +1,310 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =========================================================
+   THEME TOKENS
+   Light + dark surfaces are plain CSS variables so every
+   component can stay declarative (`bg-surface`, `text-ink` …).
+   ========================================================= */
+:root {
+  color-scheme: light;
+  --page: #f2f5f7;
+  --surface: #ffffff;
+  --surface-2: #f5f7f9;
+  --surface-3: #e9eef1;
+  --line: rgba(10, 20, 27, 0.08);
+  --line-strong: rgba(10, 20, 27, 0.16);
+  --ink: #0b1219;
+  --ink-2: #37464f;
+  --muted: #64777f;
+  --ring: rgba(16, 185, 129, 0.45);
+  --shadow-soft: 0 1px 2px rgba(10, 20, 27, 0.04), 0 14px 34px -18px rgba(10, 20, 27, 0.22);
+  --shadow-pop: 0 24px 48px -20px rgba(10, 20, 27, 0.32);
+  --glow: rgba(16, 185, 129, 0.16);
+}
+
+.dark {
+  color-scheme: dark;
+  --page: #070b0f;
+  --surface: #10171e;
+  --surface-2: #151e26;
+  --surface-3: #1c2731;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --ink: #eef4f6;
+  --ink-2: #c3d0d8;
+  --muted: #8b9ba6;
+  --ring: rgba(52, 211, 153, 0.55);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.4), 0 18px 40px -22px rgba(0, 0, 0, 0.9);
+  --shadow-pop: 0 28px 60px -24px rgba(0, 0, 0, 1);
+  --glow: rgba(16, 185, 129, 0.22);
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface-2);
+  --color-surface3: var(--surface-3);
+  --color-line: var(--line);
+  --color-linestrong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink2: var(--ink-2);
+  --color-muted: var(--muted);
+
+  --color-brand: #10b981;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-400: #34d399;
+  --color-calorie: #f97316;
+  --color-water: #38bdf8;
+  --color-violet: #a855f7;
+  --color-amber: #f5b301;
+  --color-rose: #f43f5e;
+
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Sora', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-xl2: 1.25rem;
+  --radius-xl3: 1.75rem;
+
+  --shadow-soft: var(--shadow-soft);
+  --shadow-pop: var(--shadow-pop);
+
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-pop: pop 0.35s cubic-bezier(0.22, 1.4, 0.4, 1) both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -450px 0;
+  }
+  100% {
+    background-position: 450px 0;
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--dx, 0), 108vh, 0) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: var(--color-brand);
+    color: #04160f;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--ink);
+    transition: background-color 9999s ease-in-out 0s;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+}
+
+/* =========================================================
+   REUSABLE COMPONENT CLASSES
+   ========================================================= */
+@layer components {
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow-soft);
+  }
+  .card-hover {
+    transition:
+      transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.28s ease,
+      border-color 0.28s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-pop);
+    border-color: var(--line-strong);
+  }
+  .skeleton {
+    background-image: linear-gradient(90deg, var(--surface-2) 0px, var(--surface-3) 60px, var(--surface-2) 120px);
+    background-size: 450px 100%;
+    animation: var(--animate-shimmer);
+    border-radius: 0.75rem;
+  }
+  .hide-scrollbar {
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+/* =========================================================
+   EXERCISE FIGURE MOTION
+   Applied per limb by <ExerciseFigure/> via inline animation names.
+   ========================================================= */
+@keyframes fig-body {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-2px) rotate(0.6deg);
+  }
+}
+@keyframes fig-swing {
+  0%,
+  100% {
+    transform: rotate(-13deg);
+  }
+  50% {
+    transform: rotate(13deg);
+  }
+}
+@keyframes fig-lift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-4deg);
+  }
+}
+@keyframes fig-cycle {
+  0% {
+    transform: rotate(-16deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+  100% {
+    transform: rotate(-16deg);
+  }
+}
+@keyframes fig-press {
+  0%,
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-16deg) translateY(-4px);
+  }
+}
+@keyframes fig-squeeze {
+  0%,
+  100% {
+    transform: rotate(2deg);
+  }
+  50% {
+    transform: rotate(-24deg);
+  }
+}
