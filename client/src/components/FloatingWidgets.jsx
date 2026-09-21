@@ -5,7 +5,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { MessageCircle, X, Check } from 'lucide-react';
+import { X, Check } from 'lucide-react';
+import { WhatsAppIcon } from './icons/WhatsAppIcon.jsx';
 import { useStorefront } from '../context/StorefrontContext.jsx';
 import { useToast } from '../context/ToastContext.jsx';
 import { api } from '../lib/api.js';
@@ -28,7 +29,7 @@ export function WhatsAppButton() {
       className="fixed bottom-5 left-5 z-[80] grid h-12 w-12 place-items-center rounded-full bg-[#1f7a4d] text-white shadow-lg transition-transform duration-300 hover:scale-105 sm:h-13 sm:w-13"
       style={{ boxShadow: '0 6px 20px rgba(31,122,77,0.32)' }}
     >
-      <MessageCircle size={21} strokeWidth={1.8} />
+      <WhatsAppIcon className="h-[55%] w-[55%]" />
     </a>
   );
 }
