@@ -132,23 +132,7 @@ export const formatMl = (ml: number) => (ml >= 1000 ? `${round(ml / 1000, 1)}L` 
 
 export const formatSteps = (steps: number) => Math.max(0, Math.round(steps)).toLocaleString('en-US')
 
-export const formatDuration = (minutes: number) => {
-  if (minutes < 60) return `${round(minutes, 0)} min`
-  const h = Math.floor(minutes / 60)
-  const m = round(minutes % 60, 0)
-  return m ? `${h}h ${m}m` : `${h}h`
-}
-
 export const percent = (value: number, total: number) => (total <= 0 ? 0 : clamp((value / total) * 100, 0, 100))
-
-export const titleCase = (value: string) =>
-  value
-    .split(/[\s-]/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
-
-export const pluralize = (count: number, singular: string, plural = `${singular}s`) =>
-  `${count} ${count === 1 ? singular : plural}`
 
 export const initials = (name: string) =>
   name
@@ -158,23 +142,8 @@ export const initials = (name: string) =>
     .map((part) => part[0]?.toUpperCase() ?? '')
     .join('')
 
-export const hashCode = (value: string): string => {
-  let hash = 5381
-  for (let i = 0; i < value.length; i += 1) {
-    hash = (hash * 33) ^ value.charCodeAt(i)
-  }
-  return (hash >>> 0).toString(16)
-}
-
 export const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim())
 
 export const sum = (values: number[]) => values.reduce((acc, v) => acc + v, 0)
 
 export const average = (values: number[]) => (values.length ? sum(values) / values.length : 0)
-
-export const MOVEMENT_LEVELS: { key: string; label: string; blurb: string }[] = [
-  { key: 'sedentary', label: 'Sedentary', blurb: 'Desk job, little movement' },
-  { key: 'light', label: 'Lightly Active', blurb: 'Light exercise 1–3 days/week' },
-  { key: 'moderate', label: 'Moderately Active', blurb: 'Exercise 3–5 days/week' },
-  { key: 'very', label: 'Very Active', blurb: 'Hard training 6–7 days/week' },
-]

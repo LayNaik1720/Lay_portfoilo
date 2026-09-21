@@ -260,8 +260,6 @@ export const weightChange = (entries: BodyEntry[], days: number) => {
   return round(last.weightKg - first.weightKg, 1)
 }
 
-export const bodyFatSeries = (entries: BodyEntry[]) => entries.filter((e) => typeof e.bodyFat === 'number').map((e) => ({ date: e.date, value: e.bodyFat as number }))
-
 /* ------------------------------- goals ------------------------------- */
 
 export const goalMetricValue = (goal: Goal, ctx: { weightKg: number; sessions: WorkoutSession[]; steps: StepLog[]; water: WaterLog[]; meals: Meal[] }) => {
@@ -362,8 +360,3 @@ export const sessionCompletion = (exercises: SessionExercise[]) => {
 
 export const sessionCalories = (met: number, weightKg: number, durationSec: number) =>
   caloriesFromMET(met, weightKg, durationSec / 60)
-
-export const recoveryEstimate = (session: WorkoutSession) => {
-  const intensity = session.completion / 100
-  return round(Math.min(48, 12 + session.durationSec / 60 / 3 + intensity * 8), 0)
-}
